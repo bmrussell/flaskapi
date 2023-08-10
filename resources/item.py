@@ -1,59 +1,62 @@
-import uuid
-from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
+from db import db
+from models import ItemModel
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from schemas import ItemSchema, ItemUpdateSchema
 
 blp = Blueprint("Items", __name__, description="Operations on items")
 
+###################################################################################
+# /item/<string:id>
+###################################################################################
 @blp.route("/item/<string:id>")
 class Item(MethodView):
     @blp.response(200, ItemSchema)
     def get(self, id):
-        try:
-            return items[id]    
-        except KeyError:
-            abort(404, message=f"Item {id} not found.")
+        item = ItemModel.query.get_or_404(id)
+        return item
 
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200, ItemSchema)
     def put(self, item_data, id ):        
-        try:        
-            item = items[id]
-            item |= item_data   # |= is Dictionary update operator.
-                                #  Changes contents of dictionary entry
-            return {"message": "Item updated."}
-        except KeyError:
-            abort(404, message=f"Item {id} not found.")
+        item = ItemModel.query.get(id)
+        if item:
+            item.price = item_data["price"]
+            item.name = item_data["name"]
+        else:
+            item = ItemModel(id=id, **item_data)
+            
+        db.session.add(item)
+        db.session.commit()
+        return item
         
     def delete(self, id):
-        try:
-            del items[id]
-            return {"message": "Item deleted."}
-        except KeyError:
-            abort(404, message=f"Item {id} not found.")
+        item = ItemModel.query.get_or_404(id)
+        db.session.delete(item)
+        db.session.commit()
+        return {"message": f"Item {id} deleted"}
 
 
+###################################################################################
+# /item
+###################################################################################
 @blp.route("/item")
 class ItemList(MethodView):
     @blp.response(200, ItemSchema(many=True))
     def get(self):
-        return items.values()
+        return ItemModel.query.all()
 
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):        
-        for item in items.values():
-            if (item_data["name"] == item["name"]
-                and item_data["store_id"] == item["store_id"]
-                ):
-                abort(400, message="Item already exists.")
-
-        if item_data["store_id"] not in stores:
-            abort(404, message=f"Store {item_data['store_id']} not found.")
-            
-        id = uuid.uuid4().hex
-        item = {**item_data, "id": id}
-        items[id] = item
+        item = ItemModel(**item_data)
+        
+        try:
+            db.session.add(item)
+            db.session.commit()        
+        except SQLAlchemyError as e:
+            abort(500, f"A {type(e)} error occurred when inserting the item")
+        
         return item
