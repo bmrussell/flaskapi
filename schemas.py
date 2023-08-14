@@ -28,8 +28,7 @@ class PlainTagSchema(Schema):
 class ItemSchema(PlainItemSchema):
     store_id = fields.Int(required=True, load_only=True)
     store = fields.Nested(PlainStoreSchema(), dump_only=True)
-    tags = fields.List(fields.Nested(PlainTagSchema()),
-                       dump_only=True)         # Many to Many
+    tags = fields.List(fields.Nested(PlainTagSchema()), dump_only=True)         # Many to Many
 
 
 class StoreSchema(PlainStoreSchema):
@@ -40,7 +39,7 @@ class StoreSchema(PlainStoreSchema):
 class TagSchema(PlainTagSchema):
     store_id = fields.Int(load_only=True)
     store = fields.Nested(PlainStoreSchema(), dump_only=True)
-    # items = fields.List(fields.Nested(PlainItemSchema()), dump_only=True)       # Many to Many
+    items = fields.List(fields.Nested(PlainItemSchema()), dump_only=True)       # Many to Many
 
 
 # Many to many
