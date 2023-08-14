@@ -9,6 +9,7 @@ from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
 from flask_jwt_extended import JWTManager
+from resources.user import blp as UserBlueprint
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -26,8 +27,10 @@ def create_app(db_url=None):
     db.init_app(app)
     api = Api(app)
 
-    
-    app.config["JWT_SECRET_KEY"] = "jose"
+    jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
+    with open(jwt_key_file) as f:
+        jwt_key = f.readline().strip('\n')    
+    app.config["JWT_SECRET_KEY"] = jwt_key
     jwt = JWTManager(app)
     
     with app.app_context():
@@ -36,5 +39,6 @@ def create_app(db_url=None):
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)
     api.register_blueprint(TagBlueprint)
+    api.register_blueprint(UserBlueprint)
 
     return app
