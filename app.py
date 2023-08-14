@@ -8,7 +8,7 @@ import models
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
-
+from flask_jwt_extended import JWTManager
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -24,11 +24,14 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
     db.init_app(app)
+    api = Api(app)
+
+    
+    app.config["JWT_SECRET_KEY"] = "jose"
+    jwt = JWTManager(app)
     
     with app.app_context():
         db.create_all()
-    
-    api = Api(app)
 
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)

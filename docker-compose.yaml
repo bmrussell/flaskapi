@@ -1,0 +1,22 @@
+services:
+    flaskapi:
+        build:
+          dockerfile: Dockerfile
+        container_name: flaskapi
+        restart: unless-stopped
+
+        volumes:
+            - ./:/app
+
+        environment:
+            JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
+
+        ports:
+          - 5000:5000
+
+        secrets:
+          - jwt_secret_key
+
+secrets:
+  jwt_secret_key:
+    file: ./secrets/jwt_secret_key.txt
