@@ -5,5 +5,6 @@ class StoreModel(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    items = db.relationship("ItemModel", back_populates="store", lazy="dynamic", cascade="all, delete") # Cascade deletes, also see delete-orphan
-    tags = db.relationship("TagModel", back_populates="store", lazy="dynamic")
+    
+    items = db.relationship("ItemModel", back_populates="store", lazy="dynamic") # lazy="dynamic" deferrs load of related tables increasing performance
+    tags = db.relationship("TagModel", back_populates="store", lazy="dynamic")   # Cascade deletes, also see delete-orphan
