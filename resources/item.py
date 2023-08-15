@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from db import db
 from models import ItemModel
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -34,8 +34,14 @@ class Item(MethodView):
         db.session.commit()
         return item
     
-    @jwt_required()
+    @jwt_required() 
     def delete(self, id):
+        
+        # Add authorization based on claim here
+        # jwt = get_jwt()
+        # if not jwt.get("is_admin"):
+        #     abort(401, message="Unathorized https://http.cat/401")
+            
         item = ItemModel.query.get_or_404(id)
         db.session.delete(item)
         db.session.commit()
@@ -62,6 +68,6 @@ class ItemList(MethodView):
             db.session.add(item)
             db.session.commit()        
         except SQLAlchemyError as e:
-            abort(500, f"A {type(e)} error occurred when inserting the item")
+            abort(500, message=f"A {type(e)} error occurred when inserting the item")
         
         return item

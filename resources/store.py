@@ -62,7 +62,7 @@ class StoreList(MethodView):
             db.session.add(store)
             db.session.commit()        
         except SQLAlchemyError as e:
-            abort(500, f"A {type(e)} error occurred when inserting the store")
+            abort(500, message=f"A {type(e)} error occurred when inserting the store")
         
         return store
     

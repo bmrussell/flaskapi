@@ -109,6 +109,6 @@ class Tag(MethodView):
                 db.session.commit()
                 return {"message": "Tag deleted."}
         except SQLAlchemyError as e:
-            abort(500, f"An error occurred when deleting the tag ({str(e)})")
+            abort(500, message=f"An error occurred when deleting the tag ({str(e)})")
             
         abort(400, message="Could not delete tag. Make sure tag is not linked to any items, then try again.")

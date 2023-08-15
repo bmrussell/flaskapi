@@ -11,6 +11,8 @@ from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
 from flask_jwt_extended import JWTManager
 from resources.user import blp as UserBlueprint
+from blocklist import BLOCKLIST
+
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -22,18 +24,38 @@ def create_app(db_url=None):
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv(
+        "DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    
+
     db.init_app(app)
     api = Api(app)
 
-    jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
+    jwt_key_file = os.getenv(
+        "JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
     with open(jwt_key_file) as f:
-        jwt_key = f.readline().strip('\n')    
+        jwt_key = f.readline().strip('\n')
     app.config["JWT_SECRET_KEY"] = jwt_key
     jwt = JWTManager(app)
-    
+
+    # Check for logged out tokens
+    @jwt.token_in_blocklist_loader
+    def check_if_token_in_blocklist(jwt_header, jwt_payload):
+        # Better to use redis here rather than in memory for app restarts
+        return jwt_payload["jti"] in BLOCKLIST
+
+    @jwt.revoked_token_loader
+    def revoked_token_callback(jwt_header, jwt_payload):
+        return (jsonify({"description": "The token has been revoked.", "error": "token_revoked"}), 401)
+
+    # Create JWT Claims
+    @jwt.additional_claims_loader
+    def add_claims_to_jwt(identity):
+        # identity is from the create_access_token() call in login
+        if identity == 1:
+            return {"is_admin": True}
+        return {"is_admin": False}
+
     @jwt.expired_token_loader
     def expired_token_callback(jwt_header, jwt_payload):
         return (jsonify({"message": "The token has expired.", "error": "token_expired"}), 401)
@@ -41,12 +63,11 @@ def create_app(db_url=None):
     @jwt.invalid_token_loader
     def invalid_token_callback(error):
         return (jsonify({"message": "Signature verification failed.", "error": "invalid_token"}), 401)
-    
+
     @jwt.unauthorized_loader
     def missing_token_callback(error):
         return (jsonify({"message": "Request does not contain an access token.", "error": "authorization_required"}), 401)
 
-    
     with app.app_context():
         db.create_all()
 
