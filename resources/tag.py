@@ -97,7 +97,7 @@ class Tag(MethodView):
         tag = TagModel.query.get_or_404(id)
         return tag
     
-    @blp.response(202, description="Deletes a tag if no item is tagged with it.", example={"message": "Tag deleted."}, schema=TagSchema)
+    @blp.response(202, description="Deletes a tag if no item is tagged with it.", example={"message": "Tag deleted."})
     @blp.alt_response(404, description="Tag not found.")
     @blp.alt_response(400, description="Returned if the tag is assigned to one or more items. The tag is not deleted.")
     def delete(self, id):
