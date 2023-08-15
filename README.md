@@ -53,3 +53,21 @@ sqlite3 --table instance/data.db "SELECT * FROM alembic_version"
 +--------------+
 ```
 
+### Maintainance loop
+1. Change Model
+2. Run `flask db migrate`
+3. Run `flask db upgrade`
+4. Back out with `flask db downgrade`
+
+### Coping with new columns having default value
+Alembic can execute arbitrary sql as part of a migration. So when adding a new column with default can update the old rows too so they're not NULL
+
+just add the following to the `upgrade()` step in the migration:
+```python
+op.execute("UPDATE table SET column='Default'")
+```
+to update the existing rows.
+
+Can do the same on `downgrade()` of course.
+
+
