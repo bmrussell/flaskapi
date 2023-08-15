@@ -2,7 +2,7 @@ import uuid
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-
+from flask_jwt_extended import jwt_required # @jwt_required()
 from db import db
 from models import StoreModel
 from sqlalchemy.exc import SQLAlchemyError
@@ -15,11 +15,13 @@ blp = Blueprint("stores", __name__, description="Operations on stores")
 ###################################################################################
 @blp.route("/store/<string:id>")
 class Store(MethodView):
+    @jwt_required()
     @blp.response(200, StoreSchema)
     def get(self, id):
         store = StoreModel.query.get_or_404(id)
         return store
     
+    @jwt_required()
     @blp.response(200, StoreSchema)
     def delete(self, id):
         store = StoreModel.query.get_or_404(id)
@@ -27,6 +29,7 @@ class Store(MethodView):
         db.session.commit()
         return {"message": f"Store {id} deleted"}
 
+    @jwt_required()
     @blp.arguments(StoreUpdateSchema)
     def put(self, store_data, id):        
         store = StoreModel.query.get(id)
@@ -44,10 +47,12 @@ class Store(MethodView):
 ###################################################################################
 @blp.route("/store")
 class StoreList(MethodView):
+    @jwt_required()
     @blp.response(200, StoreSchema(many=True))
     def get(self):
         return StoreModel.query.all()
 
+    @jwt_required()
     @blp.arguments(StoreSchema)
     @blp.response(200, StoreSchema)
     def post(self, store_data):        

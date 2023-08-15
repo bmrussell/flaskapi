@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-
+from flask_jwt_extended import jwt_required
 from db import db
 from models import ItemModel
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -13,11 +13,13 @@ blp = Blueprint("Items", __name__, description="Operations on items")
 ###################################################################################
 @blp.route("/item/<string:id>")
 class Item(MethodView):
+    @jwt_required()
     @blp.response(200, ItemSchema)
     def get(self, id):
         item = ItemModel.query.get_or_404(id)
         return item
 
+    @jwt_required()
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200, ItemSchema)
     def put(self, item_data, id ):        
@@ -31,7 +33,8 @@ class Item(MethodView):
         db.session.add(item)
         db.session.commit()
         return item
-        
+    
+    @jwt_required()
     def delete(self, id):
         item = ItemModel.query.get_or_404(id)
         db.session.delete(item)
@@ -44,10 +47,12 @@ class Item(MethodView):
 ###################################################################################
 @blp.route("/item")
 class ItemList(MethodView):
+    @jwt_required()
     @blp.response(200, ItemSchema(many=True))
     def get(self):
         return ItemModel.query.all()
 
+    @jwt_required()
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):        
