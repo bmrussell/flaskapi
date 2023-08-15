@@ -44,6 +44,11 @@ def create_app(db_url=None):
         # Better to use redis here rather than in memory for app restarts
         return jwt_payload["jti"] in BLOCKLIST
 
+    # Called when fresh token is expected but non-fresh received
+    @jwt.needs_fresh_token_loader
+    def token_not_fresh_callback(jwt_header, jwt_payload):
+        return (jsonify({"description": "The token is not fresh.", "error": "fresh_token_required"},401))
+
     @jwt.revoked_token_loader
     def revoked_token_callback(jwt_header, jwt_payload):
         return (jsonify({"description": "The token has been revoked.", "error": "token_revoked"}), 401)

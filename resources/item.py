@@ -58,12 +58,13 @@ class ItemList(MethodView):
     def get(self):
         return ItemModel.query.all()
 
-    @jwt_required()
+    @jwt_required(fresh=True)               # Demand a fresh token for critical things
     @blp.arguments(ItemSchema)
     @blp.response(201, ItemSchema)
     def post(self, item_data):        
         item = ItemModel(**item_data)
-        
+        jwt = get_jwt()
+        pass
         try:
             db.session.add(item)
             db.session.commit()        
