@@ -12,7 +12,7 @@ from resources.tag import blp as TagBlueprint
 from flask_jwt_extended import JWTManager
 from resources.user import blp as UserBlueprint
 from blocklist import BLOCKLIST
-
+from flask_migrate import Migrate
 
 def create_app(db_url=None):
     app = Flask(__name__)
@@ -29,6 +29,8 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+    migrate = Migrate(app, db)
+    
     api = Api(app)
 
     jwt_key_file = os.getenv(
@@ -72,9 +74,6 @@ def create_app(db_url=None):
     @jwt.unauthorized_loader
     def missing_token_callback(error):
         return (jsonify({"message": "Request does not contain an access token.", "error": "authorization_required"}), 401)
-
-    with app.app_context():
-        db.create_all()
 
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)

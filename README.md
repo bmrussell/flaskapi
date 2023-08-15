@@ -4,14 +4,13 @@
 * [eBook](https://rest-apis-flask.teclado.com/docs/course_intro/)
 
 # Docker
-Build container
+Build container. Mount dev folder so you can edit and keep the container running
 ```bash
-docker build -t flaskapi .
+docker compose up -d
 ```
-Run docker and mount dev folder so you can edit and keep the container running
-
+Follow logs
 ```bash
-docker run -dp 5000:5000 -w /app -v "$(pwd):/app" --name app flaskapi
+docker logs -f --tail 10 flaskapi
 ```
 
 # Database
@@ -22,4 +21,35 @@ https://github.com/sqlitebrowser/sqlitebrowser
 sudo dnf install sqlitebrowser
 ```
 
-SQLite doesn't enforce foreign key relationships
+**NB:** SQLite doesn't enforce foreign key relationships
+
+## Migrations
+
+### Initialise
+```bash
+flask db init
+```
+Creates `./migrations` and `./migrations/versions` folders
+
+### Create first migration
+
+```bash
+flask db migrate
+```
+Creates `./migrations/versions/numbers_.py` migration
+
+### Apply first migration
+```bash
+flask db upgrade
+```
+Goes from current migration to latest migration, query with
+
+```bash
+sqlite3 --table instance/data.db "SELECT * FROM alembic_version"
++--------------+
+| version_num  |
++--------------+
+| 9d21015ad562 |
++--------------+
+```
+
