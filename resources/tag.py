@@ -36,13 +36,6 @@ class TagInStore(MethodView):
 
         return tag
 
-@blp.route("/tag/<string:id>")
-class Tag(MethodView):
-    @blp.response(200, TagSchema)
-    def get(self, id):
-        tag =TagModel.query.get_or_404(id)
-        return tag
-
 @blp.route("/item/<string:item_id>/tag/<string:tag_id>")
 class LinkTagsToItem(MethodView):
     @blp.response(201, TagSchema)
@@ -90,7 +83,7 @@ class LinkTagsToItem(MethodView):
         except SQLAlchemyError as e:
             abort(500, message=f"A {type(e)} error occured while removing the tag {tag_id} ({e._message})")
 
-@blp.route("/tag<string:id>")
+@blp.route("/tag/<string:id>")
 class Tag(MethodView):
     @blp.response(200, TagSchema)
     def get(self, id):
@@ -106,6 +99,6 @@ class Tag(MethodView):
         if not tag.items:
             db.session.delete(tag)
             db.session.commit()
-            return {"message": f"Tag {id} deleted"}
+            return {"message": "Tag deleted."}
         
         abort(400, message="Could not delete tag. Make sure tag is not linked to any items, then try again.")
