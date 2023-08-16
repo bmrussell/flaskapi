@@ -17,8 +17,8 @@ from blocklist import BLOCKLIST
 from flask_migrate import Migrate
 
 def create_app(db_url=None):
-    env = os.getenv("ENVIRONMENT")
-    load_dotenv(env)
+    env = os.getenv("ENVIRONMENT")          # Get environment from .env
+    load_dotenv(env)                        # Get environment for this environemt from the file pointed to
     
     app = Flask(__name__)
 
