@@ -1,0 +1,45 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "flaskapi-dev-sqlite",
+            "database": "instance/data.db",
+            "group": "flaskapi-dev"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "flaskapi-dev-postgres-system",
+            "group": "flaskapi-dev",
+            "database": "postgres",
+            "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "flaskapi-dev-postgres-flaskapi",
+            "group": "flaskapi-dev",
+            "database": "flaskapi",
+            "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "snuffleupagus.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "flaskapi-render.com-postgres",
+            "group": "flaskapi.prod",
+            "database": "yvfmmkfi",
+            "username": "yvfmmkfi"
+        }
+    ]
+}
