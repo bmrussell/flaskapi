@@ -4,7 +4,7 @@ from flask import Flask
 from flask_smorest import Api
 from flask import jsonify
 from db import db
-import models
+from dotenv import load_dotenv
 
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
@@ -17,6 +17,9 @@ from blocklist import BLOCKLIST
 from flask_migrate import Migrate
 
 def create_app(db_url=None):
+    env = os.getenv("ENVIRONMENT")
+    load_dotenv(env)
+    
     app = Flask(__name__)
 
     app.config["PROPOGATE_EXCEPTIONS"] = True
@@ -34,8 +37,7 @@ def create_app(db_url=None):
     
     api = Api(app)
 
-    jwt_key_file = os.getenv(
-        "JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
+    jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
     with open(jwt_key_file) as f:
         jwt_key = f.readline().strip('\n')
     app.config["JWT_SECRET_KEY"] = jwt_key
