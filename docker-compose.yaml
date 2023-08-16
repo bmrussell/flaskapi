@@ -1,4 +1,22 @@
 services:
+
+    db:
+        image: postgres:latest
+        container_name: apidb
+        restart: unless-stopped
+
+        environment:
+          POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+        
+        ports:
+          - 5432:5432
+
+        volumes:
+          - ./instance/postgres:/var/lib/postgresql/data
+
+        secrets:
+          - postgres_password
+
     flaskapi:
         build:
           dockerfile: Dockerfile
@@ -18,6 +36,11 @@ services:
         secrets:
           - jwt_secret_key
 
+
+    
+
 secrets:
   jwt_secret_key:
     file: ./secrets/jwt_secret_key.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
