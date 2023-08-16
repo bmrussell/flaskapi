@@ -36,8 +36,8 @@
             "server": "snuffleupagus.db.elephantsql.com",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "flaskapi-render.com-postgres",
-            "group": "flaskapi.prod",
+            "name": "yvfmmkfi",
+            "group": "render.com",
             "database": "yvfmmkfi",
             "username": "yvfmmkfi"
         }
