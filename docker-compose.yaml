@@ -1,3 +1,4 @@
+# Compose file for running app locally with a local Postgres container
 services:
 
     db:

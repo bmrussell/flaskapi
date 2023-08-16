@@ -16,10 +16,12 @@ from resources.healthcheck import blp as HealthcheckBlueprint
 from blocklist import BLOCKLIST
 from flask_migrate import Migrate
 
+
 def create_app(db_url=None):
     env = os.getenv("ENVIRONMENT")          # Get environment from .env
-    load_dotenv(env)                        # Get environment for this environemt from the file pointed to
-    
+    # Get environment for this environemt from the file pointed to
+    load_dotenv(env)
+
     app = Flask(__name__)
 
     app.config["PROPOGATE_EXCEPTIONS"] = True
@@ -29,17 +31,20 @@ def create_app(db_url=None):
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv(
+        "DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
     migrate = Migrate(app, db)
-    
+
     api = Api(app)
 
-    jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'
-    with open(jwt_key_file) as f:
-        jwt_key = f.readline().strip('\n')
+    jwt_key = os.getenv("JWT_SECRET_KEY")                                                                   # Default to environment variable
+    if jwt_key == None:
+        jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'    # or secret in docker secrets file or os secrets file
+        with open(jwt_key_file) as f:
+            jwt_key = f.readline().strip('\n')
     app.config["JWT_SECRET_KEY"] = jwt_key
     jwt = JWTManager(app)
 
@@ -52,7 +57,7 @@ def create_app(db_url=None):
     # Called when fresh token is expected but non-fresh received
     @jwt.needs_fresh_token_loader
     def token_not_fresh_callback(jwt_header, jwt_payload):
-        return (jsonify({"description": "The token is not fresh.", "error": "fresh_token_required"},401))
+        return (jsonify({"description": "The token is not fresh.", "error": "fresh_token_required"}, 401))
 
     @jwt.revoked_token_loader
     def revoked_token_callback(jwt_header, jwt_payload):
