@@ -71,3 +71,7 @@ to update the existing rows.
 Can do the same on `downgrade()` of course.
 
 
+# Deployments
+
+Sign up to http://render.com with GitHub (makes it easier)
+
