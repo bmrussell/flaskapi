@@ -4,6 +4,7 @@ services:
           dockerfile: Dockerfile
         container_name: flaskapi
         restart: unless-stopped
+        command: ["sh", "-c", "flask run --host 0.0.0.0"]     # Run without gunicorn locally
 
         volumes:
             - ./:/app
