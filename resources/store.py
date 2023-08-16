@@ -11,9 +11,9 @@ from schemas import StoreSchema, StoreUpdateSchema
 blp = Blueprint("stores", __name__, description="Operations on stores")
 
 ###################################################################################
-# /store/<string:id>
+# /store/<int:id>
 ###################################################################################
-@blp.route("/store/<string:id>")
+@blp.route("/store/<int:id>")
 class Store(MethodView):
     @jwt_required()
     @blp.response(200, StoreSchema)

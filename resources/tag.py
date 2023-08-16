@@ -9,7 +9,7 @@ from schemas import TagSchema, TagAndItemSchema
 blp = Blueprint("Tags", __name__, description="Operations on tags")
 
 
-@blp.route("/store/<string:store_id>/tag")
+@blp.route("/store/<int:store_id>/tag")
 class TagInStore(MethodView):
     
     @jwt_required()
@@ -39,7 +39,7 @@ class TagInStore(MethodView):
 
         return tag
 
-@blp.route("/item/<string:item_id>/tag/<string:tag_id>")
+@blp.route("/item/<int:item_id>/tag/<int:tag_id>")
 class LinkTagsToItem(MethodView):
     @jwt_required()
     @blp.response(201, TagSchema)
@@ -88,7 +88,7 @@ class LinkTagsToItem(MethodView):
         except SQLAlchemyError as e:
             abort(500, message=f"A {type(e)} error occured while removing the tag {tag_id} ({e._message})")
 
-@blp.route("/tag/<string:id>")
+@blp.route("/tag/<int:id>")
 class Tag(MethodView):
     @jwt_required()
     @blp.response(200, TagSchema)

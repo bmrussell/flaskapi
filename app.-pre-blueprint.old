@@ -22,7 +22,7 @@ def create_store():
 
     return new_store, 201
 
-@app.get("/store/<string:id>")
+@app.get("/store/<int:id>")
 def get_store(id):
     try:
         return stores[id]
@@ -33,7 +33,7 @@ def get_store(id):
 def get_stores():
     return {"stores": list(stores.values())}
 
-@app.put("/store/<string:id>")
+@app.put("/store/<int:id>")
 def update_store(id):
     store_data = request.get_json()
     if "name" not in store_data:
@@ -47,7 +47,7 @@ def update_store(id):
     except KeyError:
         abort(404, message=f"Store {id} not found.")
 
-@app.delete("/store/<string:id>")
+@app.delete("/store/<int:id>")
 def delete_store(id):
     try:
         del stores[id]
@@ -78,7 +78,7 @@ def create_item():
     items[id] = item
     return item, 201
 
-@app.get("/item/<string:id>")
+@app.get("/item/<int:id>")
 def get_item(id):
     try:
         return items[id]    
@@ -90,7 +90,7 @@ def get_all_items():
     return {"items": list(items.values())}
 
 
-@app.put("/item/<string:id>")
+@app.put("/item/<int:id>")
 def update_item(id):
     item_data = request.get_json()
     if "price" not in item_data or "name" not in item_data:
@@ -104,7 +104,7 @@ def update_item(id):
     except KeyError:
         abort(404, message=f"Item {id} not found.")
         
-@app.delete("/item/<string:id>")
+@app.delete("/item/<int:id>")
 def delete_item(id):
     try:
         del items[id]
