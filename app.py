@@ -11,6 +11,8 @@ from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
 from flask_jwt_extended import JWTManager
 from resources.user import blp as UserBlueprint
+from resources.healthcheck import blp as HealthcheckBlueprint
+
 from blocklist import BLOCKLIST
 from flask_migrate import Migrate
 
@@ -79,5 +81,6 @@ def create_app(db_url=None):
     api.register_blueprint(StoreBlueprint)
     api.register_blueprint(TagBlueprint)
     api.register_blueprint(UserBlueprint)
+    api.register_blueprint(HealthcheckBlueprint)
 
     return app
