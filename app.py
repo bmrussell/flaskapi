@@ -1,5 +1,5 @@
 import os
-
+from utils import getenv
 from flask import Flask
 from flask_smorest import Api
 from flask import jsonify
@@ -37,15 +37,11 @@ def create_app(db_url=None):
 
     db.init_app(app)
     migrate = Migrate(app, db)
-
+    
     api = Api(app)
 
-    jwt_key = os.getenv("JWT_SECRET_KEY")                                                                   # Default to environment variable
-    if jwt_key == None:
-        jwt_key_file = os.getenv("JWT_SECRET_KEY_FILE") or f'.{os.sep}secrets{os.sep}jwt_secret_key.txt'    # or secret in docker secrets file or os secrets file
-        with open(jwt_key_file) as f:
-            jwt_key = f.readline().strip('\n')
-    app.config["JWT_SECRET_KEY"] = jwt_key
+
+    app.config["JWT_SECRET_KEY"] = getenv("JWT_SECRET_KEY")
     jwt = JWTManager(app)
 
     # Check for logged out tokens

@@ -34,6 +34,7 @@ docker run -dp 5000:5000 -w /app -v "$(pwd):/app" --name app flaskapi sh -c "fla
 **Compose**
 
 ```bash
+docker compose build
 docker compose up -d
 docker compose down
 ```
@@ -50,5 +51,13 @@ Handle database migrations within the containered runtime when using docker. Iss
 docker exec -it flaskapi /bin/sh -c "flask db migrate"
 docker exec -it flaskapi /bin/sh -c "flask db upgrade"
 ```
+if docker compose build fails with access to the `instance/progress` directory just take ownership and rights:
+```bash
+sudo chown -R brian instance/postgres
+sudo chmod -R o+w instance/postgres
+sudo chmod -R o+r instance/postgres
+sudo chmod -R o+x instance/postgres
+```
+
 
 If not using docker, update the host for the Postgres database in `.env`

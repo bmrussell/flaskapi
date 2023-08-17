@@ -8,7 +8,7 @@ services:
 
         environment:
           POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
-        
+
         ports:
           - 5432:5432
 
@@ -30,18 +30,24 @@ services:
 
         environment:
             JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
+            MAILGUN_DOMAIN_FILE: /run/secrets/mailgun_domain
+            MAILGUN_API_KEY_FILE: /run/secrets/mailgun_api_key
 
         ports:
           - 5000:5000
 
         secrets:
           - jwt_secret_key
+          - mailgun_api_key
+          - mailgun_domain
 
-
-    
 
 secrets:
   jwt_secret_key:
-    file: ./secrets/jwt_secret_key.txt
+    file: ./secrets/JWT_SECRET_KEY
   postgres_password:
-    file: ./secrets/postgres_password.txt
+    file: ./secrets/POSTGRES_PASSWORD
+  mailgun_domain:
+    file: ./secrets/MAILGUN_DOMAIN
+  mailgun_api_key:
+    file: ./secrets/MAILGUN_API_KEY
