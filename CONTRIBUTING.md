@@ -24,7 +24,23 @@ DATABASE_URL=postgresql://username:password@localhost/flaskapi
 ```
 
 ### Secrets
-create `jwt_secret_key.txt` and `postgres_password.txt` in `./secrets/` and fill with JWT secret for the app and admin password for Postgres
+Secrets are read by `utls.getenv()`, set in either:
+1. Host environment variable
+2. Environment variable in `.env`
+3. A file with the same name as the secret, in a folder specified by the `ENVIRONMENT` environment variable
+4. As a [docker secret](https://docs.docker.com/compose/use-secrets/) in the compose file as follows:
+
+```yaml
+...
+                    environment:
+                    MYSECRET_FILE: /run/secrets/mysecret
+...                    
+            secrets:            
+              mysecret:
+                file: ."${ENVIRONMENT}/MYSECRET"
+```
+
+Docker secrets are more secure than environement variables as the file `."${ENVIRONMENT}/MYSECRET"` is mounted at runtime at `/run/secrets/mysecret` or stored in a provider.
 
 ### Docker
 **Run**

@@ -44,10 +44,10 @@ services:
 
 secrets:
   jwt_secret_key:
-    file: ./secrets/JWT_SECRET_KEY
+    file: "${ENVIRONMENT}/JWT_SECRET_KEY"
   postgres_password:
-    file: ./secrets/POSTGRES_PASSWORD
+    file: "${ENVIRONMENT}/POSTGRES_PASSWORD"
   mailgun_domain:
-    file: ./secrets/MAILGUN_DOMAIN
+    file: "${ENVIRONMENT}/MAILGUN_DOMAIN"
   mailgun_api_key:
-    file: ./secrets/MAILGUN_API_KEY
+    file: "${ENVIRONMENT}/MAILGUN_API_KEY"

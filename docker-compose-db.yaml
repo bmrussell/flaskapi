@@ -20,4 +20,4 @@ services:
 
 secrets:
   postgres_password:
-    file: ./secrets/POSTGRES_PASSWORD
+    file: "${ENVIRONMENT}/POSTGRES_PASSWORD"
