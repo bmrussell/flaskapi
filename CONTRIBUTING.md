@@ -11,17 +11,9 @@ DATABASE_URL=<db url from instance at https://customer.elephantsql.com/instance>
 
 ## Running Locally
 
-### Database
-Set the following environment variables in the `.env` file:
+Spin up a PostgreSQL container using `docker-compose-db.yaml` then debug in vscode.
 
-**SQLite**
-```ini
-DATABASE_URL=sqlite:///data.db
-```
-**Local Containerised Postgres**
-```ini
-DATABASE_URL=postgresql://username:password@localhost/flaskapi
-```
+**TODO:** Move solution to vscode [devcontainers](https://code.visualstudio.com/docs/devcontainers/containers).
 
 ### Secrets
 Secrets are read by `utls.getenv()`, set in either:
@@ -40,7 +32,39 @@ Secrets are read by `utls.getenv()`, set in either:
                 file: ."${ENVIRONMENT}/MYSECRET"
 ```
 
-Docker secrets are more secure than environement variables as the file `."${ENVIRONMENT}/MYSECRET"` is mounted at runtime at `/run/secrets/mysecret` or stored in a provider.
+For example, given:
+```
+secrets
+├── dev-docker
+│   ├── DATABASE_URL
+│   ├── JWT_SECRET_KEY
+│   ├── MAILGUN_API_KEY
+│   ├── MAILGUN_DOMAIN
+│   ├── POSTGRES_PASSWORD
+│   └── REDIS_URL
+├── dev-local
+│   ├── DATABASE_URL
+│   ├── JWT_SECRET_KEY
+│   ├── MAILGUN_API_KEY
+│   ├── MAILGUN_DOMAIN
+│   ├── POSTGRES_PASSWORD
+│   └── REDIS_URL
+└── test
+    ├── DATABASE_URL
+    ├── JWT_SECRET_KEY
+    ├── MAILGUN_API_KEY
+    ├── MAILGUN_DOMAIN
+    ├── POSTGRES_PASSWORD
+    └── REDIS_URL
+```
+
+and a '.env` of
+```ini
+ENVIRONMENT=./secrets/dev-docker
+```
+Docker secrets will pick up the value for `JWT_SECRET_KEY` from `./secrets/dev-docker/JWT_SECRET_KEY` or by `utils.py` `getenv` when run locally.
+
+Docker secrets are more secure than environement variables as the file containing the secret is mounted at runtime at `/run/secrets/mysecret` or pulled from a provider.
 
 ### Docker
 **Run**
