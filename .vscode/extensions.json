@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "humao.rest-client",
+        "donjayamanne.python-extension-pack",
+        "ms-azuretools.vscode-docker",
+        "formulahendry.docker-explorer",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "mtxr.sqltools-driver-sqlite"
+    ]
+}
