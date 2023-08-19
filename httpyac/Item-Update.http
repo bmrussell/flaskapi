@@ -1,0 +1,6 @@
+# @import ./User-Login.http
+# @ref login_response
+PUT {{$dotenv %ENDPOINT}}/item/3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{login_response.access_token}}
+{ "name": "choof", "price": 270.99, "store_id": 1}
