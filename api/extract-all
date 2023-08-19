@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+(cat thunderclient-collection.json | jq -c '.requests[] | .name' | sed --expression 's/"//g') | \
+while read r; do
+  extract thunderclient-collection.json "$r" 
+done 

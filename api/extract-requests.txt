@@ -1,0 +1,23 @@
+Get All Stores
+Create Store
+Create Item
+Get Store
+Get Item
+Get All Items
+Delete Item
+Update Item
+Delete Store
+Update Store
+Create Tag For Store
+Register User
+Get User
+Delete User
+Get Tags For Store
+Get Tag
+Tag Item
+Untag Item
+Delete Tag
+Login
+Logout
+Refresh Token
+Healthcheck

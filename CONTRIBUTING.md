@@ -91,6 +91,13 @@ Handle database migrations within the containered runtime when using docker. Iss
 docker exec -it flaskapi /bin/sh -c "flask db migrate"
 docker exec -it flaskapi /bin/sh -c "flask db upgrade"
 ```
+
+## A Note on WSL/Linux
+
+When running locally, the postgres database gets created from the container, so if you're developing on linux or wsl, the postgres data folder on the host won't be accessible. This is because the user inside the container is root (UID 0) and the user outside is not. 
+
+You can fix this temporarily by doing a chown on the data folder for the host user, or run the docker container as non-root, but I haven't done the latter yet.
+
 if docker compose build fails with access to the `instance/progress` directory just take ownership and rights:
 ```bash
 sudo chown -R brian instance/postgres

@@ -1,0 +1,4 @@
+POST {{$dotenv %ENDPOINT}}/item HTTP/1.1
+Content-Type: application/json
+
+{ "name": "WH40K", "price": 40.99, "store_id": 1}

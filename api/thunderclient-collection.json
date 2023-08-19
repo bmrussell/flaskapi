@@ -1,0 +1,549 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Flask API",
+    "dateExported": "2023-08-18T17:25:32.260Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Items",
+            "containerId": "",
+            "created": "2023-08-05T16:22:08.058Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Stores",
+            "containerId": "",
+            "created": "2023-08-05T16:22:12.634Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Tags",
+            "containerId": "",
+            "created": "2023-08-09T09:25:45.319Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Users",
+            "containerId": "",
+            "created": "2023-08-15T09:39:09.979Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "4ab73190-f103-411f-8a87-76f0e6f5c0ab",
+            "name": "Healthchecks",
+            "containerId": "",
+            "created": "2023-08-16T10:07:40.773Z",
+            "sortNum": 60000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "90d1e5c5-d94c-488d-a1d8-adf7b0f0b489",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Register User",
+            "url": "{{ENDPOINT}}/register",
+            "method": "POST",
+            "sortNum": 7500,
+            "created": "2023-08-15T09:39:13.680Z",
+            "modified": "2023-08-17T15:59:14.701Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"spiny\",\n  \"email\": \"2ido3cver@mozmail.com\",\n  \"password\": \"volts\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "200c4583-9a2c-43c0-82c0-bcab2a571b6a",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Create Tag For Store",
+            "url": "{{ENDPOINT}}/store/1/tag",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-08-09T09:29:41.614Z",
+            "modified": "2023-08-16T14:39:47.501Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Gaming\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c66fe95b-c864-4855-bf3c-4ed7939149d3",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "4ab73190-f103-411f-8a87-76f0e6f5c0ab",
+            "name": "Healthcheck",
+            "url": "{{ENDPOINT}}/health",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-08-16T10:07:45.570Z",
+            "modified": "2023-08-16T10:12:52.258Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "18f49492-5be4-4164-a540-fc2d36936545",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Tag Item",
+            "url": "{{ENDPOINT}}/item/1/tag/1",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-08-15T09:43:31.478Z",
+            "modified": "2023-08-16T14:39:55.218Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "0b8054fa-7be4-4d10-87fc-19531811a6de",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Login",
+            "url": "{{ENDPOINT}}/login",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-08-15T11:01:53.140Z",
+            "modified": "2023-08-16T10:03:44.618Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"spiny\",\n  \"password\": \"volts\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.access_token",
+                    "action": "setto",
+                    "value": "{{ACCESS_TOKEN}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.refresh_token",
+                    "action": "setto",
+                    "value": "{{REFRESH_TOKEN}}"
+                }
+            ]
+        },
+        {
+            "_id": "52b4826d-7d32-484f-b12d-eddc5da6078d",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Untag Item",
+            "url": "{{ENDPOINT}}/item/2/tag/1",
+            "method": "DELETE",
+            "sortNum": 17500,
+            "created": "2023-08-15T09:44:12.781Z",
+            "modified": "2023-08-15T09:44:28.732Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fee58e4b-a909-4561-8b96-66d80ee8ec3d",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Logout",
+            "url": "{{ENDPOINT}}/logout",
+            "method": "POST",
+            "sortNum": 17500,
+            "created": "2023-08-15T14:14:18.146Z",
+            "modified": "2023-08-16T10:04:53.711Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.access_token",
+                    "action": "setto",
+                    "value": "{{JWT}}"
+                }
+            ]
+        },
+        {
+            "_id": "2224c8fe-bef6-4b4c-a031-775310cd7c5a",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Refresh Token",
+            "url": "{{ENDPOINT}}/refresh",
+            "method": "POST",
+            "sortNum": 18750,
+            "created": "2023-08-15T14:33:14.908Z",
+            "modified": "2023-08-16T10:04:57.949Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{REFRESH_TOKEN}}"
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.access_token",
+                    "action": "setto",
+                    "value": "{{ACCESS_TOKEN}}"
+                }
+            ]
+        },
+        {
+            "_id": "330b43a5-d75a-4f81-a14a-061fa8dfa0e2",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Get User",
+            "url": "{{ENDPOINT}}/user/3",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-08-15T09:40:35.671Z",
+            "modified": "2023-08-17T17:00:16.936Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e4468e83-e7a6-4d34-999a-1c0e518b026b",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Get Tags For Store",
+            "url": "{{ENDPOINT}}/store/1/tag",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-08-15T09:42:23.165Z",
+            "modified": "2023-08-15T09:42:49.262Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "cbaa7236-406d-4c26-8f17-e7b0b90fa4b1",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Create Store",
+            "url": "{{ENDPOINT}}/store",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-04T12:54:18.074Z",
+            "modified": "2023-08-16T14:38:59.117Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Cavil's Minatures\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4c5e6c8f-512a-40bd-99db-223abd5491fe",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Create Item",
+            "url": "{{ENDPOINT}}/item",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-04T13:00:35.723Z",
+            "modified": "2023-08-16T14:39:28.361Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"WH40K\",\n  \"price\": 40.99,\n  \"store_id\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "63c2dc41-91df-47ec-8a73-7856a89a2db6",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "fabb7db6-d3ac-4edd-b9f6-0f0b1a0ec86f",
+            "name": "Delete User",
+            "url": "{{ENDPOINT}}/user/3",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2023-08-15T09:40:58.929Z",
+            "modified": "2023-08-17T17:00:25.580Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e44ab86a-6b46-4abc-a56f-fe4ea052f547",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Get Tag",
+            "url": "{{ENDPOINT}}/tag/4",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-08-15T09:43:09.085Z",
+            "modified": "2023-08-15T09:51:59.747Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "60c317e5-d2ed-4e51-8947-7f155003b265",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Get Store",
+            "url": "{{ENDPOINT}}/store/1",
+            "method": "GET",
+            "sortNum": 32500,
+            "created": "2023-08-04T13:20:49.250Z",
+            "modified": "2023-08-16T14:39:05.243Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "03120397-0ef4-44c2-ae7b-c90c47680a94",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Get Item",
+            "url": "{{ENDPOINT}}/item/3",
+            "method": "GET",
+            "sortNum": 32500,
+            "created": "2023-08-04T13:21:26.043Z",
+            "modified": "2023-08-08T15:42:54.801Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a2348b8b-df50-4749-9ab9-11794a907d5f",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Get All Stores",
+            "url": "{{ENDPOINT}}/store",
+            "method": "GET",
+            "sortNum": 33750,
+            "created": "2023-08-04T11:19:39.021Z",
+            "modified": "2023-08-04T13:02:54.310Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "3b10268f-2952-4819-840e-e7de47c0e07a",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Get All Items",
+            "url": "{{ENDPOINT}}/item",
+            "method": "GET",
+            "sortNum": 33750,
+            "created": "2023-08-04T18:49:41.461Z",
+            "modified": "2023-08-05T16:45:31.978Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8b5706ec-2c8f-41ec-b171-509ed15718a3",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Update Item",
+            "url": "{{ENDPOINT}}/item/3",
+            "method": "PUT",
+            "sortNum": 35000,
+            "created": "2023-08-05T16:24:07.799Z",
+            "modified": "2023-08-08T15:42:49.132Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"choof\",\n  \"price\": 270.99,\n  \"store_id\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0cac344d-5f13-4d4b-a554-7baf0b67dfd9",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Update Store",
+            "url": "{{ENDPOINT}}/store/STORE_ID",
+            "method": "DELETE",
+            "sortNum": 35000,
+            "created": "2023-08-05T16:24:59.178Z",
+            "modified": "2023-08-05T16:24:59.178Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "496981c6-e7eb-46b3-ace6-ed7719d64a70",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "9c39dec2-a589-43d4-bcca-b609972f194e",
+            "name": "Delete Item",
+            "url": "{{ENDPOINT}}/item/4",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-08-05T16:23:07.808Z",
+            "modified": "2023-08-15T09:54:20.684Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9b894949-cbda-4bee-a7cb-3ca17a6c12ec",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "892833be-96c0-4e7b-b3da-81a4693f00ec",
+            "name": "Delete Store",
+            "url": "{{ENDPOINT}}/store/STORE_ID",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-08-05T16:24:31.760Z",
+            "modified": "2023-08-05T16:25:12.721Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8b77dc3e-6157-4105-8db3-c0a67d2bb533",
+            "colId": "1d81f1b8-b5ac-4610-9ebb-d8c0767be074",
+            "containerId": "5f1a2d68-431f-49ca-b1f4-b9895f5adc57",
+            "name": "Delete Tag",
+            "url": "{{ENDPOINT}}/tag/4",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-08-15T09:45:52.153Z",
+            "modified": "2023-08-15T09:49:46.730Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "settings": {
+        "auth": {
+            "type": "bearer",
+            "bearer": "{{ACCESS_TOKEN}}"
+        }
+    }
+}
