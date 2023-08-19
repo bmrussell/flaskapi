@@ -1,0 +1,6 @@
+# @import ./User-Login.http
+# @ref login_response
+POST {{$dotenv %ENDPOINT}}/store HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{login_response.access_token}}
+{ "name": "Cavil's Minatures"}
