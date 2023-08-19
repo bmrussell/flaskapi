@@ -3,6 +3,6 @@ POST {{ENDPOINT}}/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "spiny",
-    "password": "volts"
+    "username": "{{USERNAME}}",
+    "password": "{{PASSWORD}}"
 }
