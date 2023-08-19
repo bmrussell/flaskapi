@@ -5,6 +5,7 @@
         "formulahendry.docker-explorer",
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg",
-        "mtxr.sqltools-driver-sqlite"
+        "mtxr.sqltools-driver-sqlite",
+        "anweber.vscode-httpyac"
     ]
 }

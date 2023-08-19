@@ -101,10 +101,34 @@ You can fix this temporarily by doing a chown on the data folder for the host us
 if docker compose build fails with access to the `instance/progress` directory just take ownership and rights:
 ```bash
 sudo chown -R brian instance/postgres
-sudo chmod -R o+w instance/postgres
-sudo chmod -R o+r instance/postgres
-sudo chmod -R o+x instance/postgres
 ```
 
 
 If not using docker, update the host for the Postgres database in `.env`
+
+# API Testing
+I like being able to test from within vscode, so favour other things over Postman or Insomnia. Since Thunder Client started charging for being able to save tests within a project folder, I've moved to [httpYac](https://marketplace.visualstudio.com/items?itemName=anweber.vscode-httpyac). There's a [guide](https://httpyac.github.io/guide/) but here is a short example:
+
+The request below, saved as `User-Login.http` calls a login via POST and saves the response to the variable `login_response`. 
+
+Environment variables are referenced from a `.env` file as per normal conventions, and httpYac can manage and switch between several files named `.env.local`, `.env.test`, `.env.prod` for example.
+```http
+# @name login_response
+POST {{ENDPOINT}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "{{USERNAME}}",
+    "password": "{{PASSWORD}}"
+}
+```
+
+The request below references the above request using the file name and imports the response variable. This is then used to supply the authentication token for this call.
+
+```http
+# @import ./User-Login.http
+# @ref login_response
+GET {{ENDPOINT}}/store HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{login_response.access_token}}
+```
