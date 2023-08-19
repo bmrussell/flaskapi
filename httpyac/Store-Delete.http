@@ -1,6 +1,5 @@
 # @import ./User-Login.http
 # @ref login_response
-PUT {{$dotenv %ENDPOINT}}/store/STORE_ID HTTP/1.1
-
+DELETE {{ENDPOINT}}/store/3 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{login_response.access_token}}

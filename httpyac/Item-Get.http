@@ -1,5 +1,5 @@
 # @import ./User-Login.http
 # @ref login_response
-GET {{$dotenv %ENDPOINT}}/item/3 HTTP/1.1
+GET {{ENDPOINT}}/item/3 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{login_response.access_token}}

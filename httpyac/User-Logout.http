@@ -1,5 +1,5 @@
 # @import ./User-Login.http
 # @ref login_response
-POST {{$dotenv %ENDPOINT}}/logout HTTP/1.1
+POST {{ENDPOINT}}/logout HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{login_response.access_token}}
