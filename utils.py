@@ -31,5 +31,5 @@ def getenv(key):
     if value == None:                                                                           # Try reading from a file if not set
         key_file = os.getenv(f"{key}_FILE") or os.path.join(os.getenv("ENVIRONMENT"), key)      # in docker secrets file or os secrets file
         with open(key_file) as f:
-            value = f.readline().strip('\n')                                                    # Make sure not to include trailing newline if there is one
+            value = f.readline().strip('\n')                                                    # Make sure not to include trailing newline if there is one    
     return value

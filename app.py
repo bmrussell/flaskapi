@@ -1,5 +1,5 @@
 import os
-from utils import getenv
+import utils
 from flask import Flask
 from flask_smorest import Api
 from flask import jsonify
@@ -16,6 +16,8 @@ from resources.healthcheck import blp as HealthcheckBlueprint
 from blocklist import BLOCKLIST
 from flask_migrate import Migrate
 
+import redis
+from rq import Queue
 
 def create_app(db_url=None):
     env = os.getenv("ENVIRONMENT")          # Get environment from .env
@@ -24,6 +26,8 @@ def create_app(db_url=None):
 
     app = Flask(__name__)
 
+    connection = redis.from_url(utils.getenv("REDIS_URL"))
+    app.queue = Queue("emails", connection=connection)
     app.config["PROPOGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
     app.config["API_VERSION"] = "v1"
@@ -31,8 +35,7 @@ def create_app(db_url=None):
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv(
-        "DATABASE_URL", "sqlite:///data.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or utils.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
@@ -41,7 +44,7 @@ def create_app(db_url=None):
     api = Api(app)
 
 
-    app.config["JWT_SECRET_KEY"] = getenv("JWT_SECRET_KEY")
+    app.config["JWT_SECRET_KEY"] = utils.getenv("JWT_SECRET_KEY")
     jwt = JWTManager(app)
 
     # Check for logged out tokens

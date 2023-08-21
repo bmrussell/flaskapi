@@ -2,6 +2,7 @@ import requests
 import os
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import current_app
 from passlib.hash import pbkdf2_sha256
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -12,21 +13,12 @@ from schemas import UserSchema, UserRegisterSchema
 from blocklist import BLOCKLIST
 from sqlalchemy import or_
 from utils import getenv
+from tasks import send_user_registration_email
+
 
 blp = Blueprint("Users", __name__, description="Operations on users")
 
 
-def send_simple_message(to, subject, body):
-    domain = getenv("MAILGUN_DOMAIN")
-    key = getenv("MAILGUN_API_KEY")
-
-    return requests.post(
-        f"https://api.mailgun.net/v3/{domain}/messages",
-        auth=("api", key),
-        data={"from": f"App <mailgun@{domain}>",
-              "to": [to],
-              "subject": subject,
-              "text": body})
 
 
 @blp.route("/refresh")
@@ -82,8 +74,7 @@ class UserRegister(MethodView):
         )
         db.session.add(user)
         db.session.commit()
-        send_simple_message(to=user.email, subject="Signed up",
-                            body=f"Hi {user.username}. You've signed up.")
+        current_app.queue.enqueue(send_user_registration_email, user.email, user.username)
 
         return {"message": "User created successfully."}, 201
 

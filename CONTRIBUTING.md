@@ -67,15 +67,24 @@ Docker secrets will pick up the value for `JWT_SECRET_KEY` from `./secrets/dev-d
 Docker secrets are more secure than environement variables as the file containing the secret is mounted at runtime at `/run/secrets/mysecret` or pulled from a provider.
 
 ### Docker
-**Run**
+**Run (Just the app)**
 ```bash
 docker run -dp 5000:5000 -w /app -v "$(pwd):/app" --name app flaskapi sh -c "flask run --host 0.0.0.0"
 ```
-**Compose**
+**Docker Compose**
 
+**Build**
+If database migrations are done in the container, ownership of the postgres folder gets taken by root. So override this.
 ```bash
-docker compose build
+sudo chown -R $USER instance/postgres && docker compose build
+```
+
+**Run**
+```bash
 docker compose up -d
+```
+**Stop**
+```bash
 docker compose down
 ```
 
@@ -92,15 +101,18 @@ docker exec -it flaskapi /bin/sh -c "flask db migrate"
 docker exec -it flaskapi /bin/sh -c "flask db upgrade"
 ```
 
+### Redis
+The compose file includes Redis as service `worker` and picks up the URL from the contents of `/run/secrets/redis_url`
+
 ## A Note on WSL/Linux
 
 When running locally, the postgres database gets created from the container, so if you're developing on linux or wsl, the postgres data folder on the host won't be accessible. This is because the user inside the container is root (UID 0) and the user outside is not. 
 
-You can fix this temporarily by doing a chown on the data folder for the host user, or run the docker container as non-root, but I haven't done the latter yet.
+You can fix this temporarily by doing a chown on the data folder (see above) for the host user, or run the docker container as non-root, but I haven't done the latter yet.
 
 if docker compose build fails with access to the `instance/progress` directory just take ownership and rights:
 ```bash
-sudo chown -R brian instance/postgres
+sudo chown -R $USER instance/postgres
 ```
 
 

@@ -1,4 +1,4 @@
-# Compose file for running app locally with a local Postgres container
+# Compose file for running app locally on the host with a local Postgres in a container
 services:
 
     db:
@@ -23,7 +23,7 @@ services:
           dockerfile: Dockerfile
         container_name: flaskapi
         restart: unless-stopped
-        command: ["sh", "-c", "flask run --host 0.0.0.0"]     # Run without gunicorn locally
+        command: ["sh", "-c", "flask run --host 0.0.0.0"]     # Run without gunicorn locally        
 
         volumes:
             - ./:/app
@@ -32,6 +32,7 @@ services:
             JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
             MAILGUN_DOMAIN_FILE: /run/secrets/mailgun_domain
             MAILGUN_API_KEY_FILE: /run/secrets/mailgun_api_key
+            REDIS_URL_FILE: /run/secrets/redis_url
 
         ports:
           - 5000:5000
@@ -40,7 +41,33 @@ services:
           - jwt_secret_key
           - mailgun_api_key
           - mailgun_domain
+          - redis_url
 
+    worker:
+        build:
+          dockerfile: Dockerfile
+        container_name: worker
+        restart: unless-stopped
+        command: ["/bin/bash", "-c", "rq worker -u $(cat /run/secrets/redis_url) emails"]
+        #command: ["sh", "-c", "sleep 1h"]
+
+        volumes:
+            - ./:/app
+
+        environment:
+            JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
+            MAILGUN_DOMAIN_FILE: /run/secrets/mailgun_domain
+            MAILGUN_API_KEY_FILE: /run/secrets/mailgun_api_key
+            REDIS_URL_FILE: /run/secrets/redis_url
+
+        ports:
+          - 6379:6379
+
+        secrets:
+          - jwt_secret_key
+          - mailgun_api_key
+          - mailgun_domain
+          - redis_url
 
 secrets:
   jwt_secret_key:
@@ -51,3 +78,5 @@ secrets:
     file: "${ENVIRONMENT}/MAILGUN_DOMAIN"
   mailgun_api_key:
     file: "${ENVIRONMENT}/MAILGUN_API_KEY"
+  redis_url:
+    file: "${ENVIRONMENT}/REDIS_URL"    
