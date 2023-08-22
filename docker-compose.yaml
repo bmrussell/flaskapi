@@ -48,8 +48,8 @@ services:
           dockerfile: Dockerfile
         container_name: worker
         restart: unless-stopped
-        command: ["/bin/bash", "-c", "rq worker -u $(cat /run/secrets/redis_url) emails"]
-        #command: ["sh", "-c", "sleep 1h"]
+        #command: ["/bin/bash", "-c", "rq worker -u $(cat /run/secrets/redis_url) emails"]
+        command: ["/bin/bash", "-c", "rq worker -c workersettings"]
 
         volumes:
             - ./:/app
